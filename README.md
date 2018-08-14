@@ -19,10 +19,10 @@
     --interval determines the window length.
 
 ### Example:
-If you want to see the average ETH/USDT price in 5-minute intervals:
+If you want to see the average ETH/BTC price in 5-minute intervals:
 
-`python binancewatch.py -p ETHUSDT -d 8 -i 5m`
+`python binancewatch.py -p ETHBTC -d 8 -i 5m`
 
-Default parameters are set for BTCUSDT with 2 points of precision and 1 minute windows, simply run:
+Default parameters are set for BTC/USDT with 2 points of precision and 1 minute windows, simply run:
 
 `python binancewatch.py`
