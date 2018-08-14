@@ -1,15 +1,15 @@
-##Binance Market Display
+## Binance Market Display
 
  - ##### Displays the current average trading price in a given window of time
  - ##### Average price updates every second
 ![Avg btc price](docs/btcavgdisplay.png)
 
-###Dependencies:
+### Dependencies:
 - python 3.x
 - requests
 - pandas
 
-###Running:
+### Running:
 - Command line parameters:
         --pair (-p), 
         --decimals (-d), 
@@ -18,7 +18,7 @@
     --pair is the trading pair, --decimals controls points of precision, and 
     --interval determines the window length.
 
-###Example:
+### Example:
 If you want to see the average ETH/USDT price in 5-minute intervals:
     `python binancewatch.py -p ETHUSDT -d 8 -i 5m`
 
