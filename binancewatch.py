@@ -6,6 +6,10 @@ import sys
 import argparse
 
 class BinancePy:
+    """
+    Constructs valid HTTP requests and queries data from binance api:
+    https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md
+    """
     def __init__(self, api_version='v1'):
         self._base = 'https://api.binance.com/api/' + api_version
 
@@ -27,6 +31,12 @@ class BinancePy:
 
 
 class Cruncher:
+    """
+    Builds dataframes based on a specified window-length
+    Runs calculations over the dataframes
+
+    When querying market data with a specific window-length, the returned timestamp will remain constant for all queries within that window of time. This is how Crucher knows to either append the latest market data to an existing dataframe, or to begin a new dataframe.
+    """
     def __init__(self):
         self._df = None
         self._current = None
@@ -66,7 +76,13 @@ class Cruncher:
 
 
 class Automator(BinancePy, Cruncher):
-    def __init__(self, trading_pair='BTCUSDT', precision=2, interval='1m'):
+    """
+    Queries binance every second for updated market data
+    Displays the average price in the current interval window
+    Resets average price when a new interval begins
+    Runs until user exits manually
+    """
+    def __init__(self, trading_pair, precision, interval):
         self._symbol = trading_pair
         self._precision = int(precision)
         self._interval = interval
@@ -75,12 +91,9 @@ class Automator(BinancePy, Cruncher):
         BinancePy.__init__(self)
 
     def run(self):
-        """
-        Query the current market data of the given interval window
-        Display the average close price of the current interval window
-        Reset average when new interval window begins
-        """
         while True:
+
+            # Query Binance
             try:
                 data = self.candlesticks(symbol=self._symbol,
                                          interval=self._interval)
@@ -88,6 +101,7 @@ class Automator(BinancePy, Cruncher):
                 print('Error: Is this a valid trading pair?')
                 break
 
+            # Find average price
             self.build_interval_df(data)
             avg = self.stat_average(self._df, self._precision)
 
@@ -108,10 +122,11 @@ if __name__=='__main__':
     """
     Common trading pairs: BTCUSDT, ETHUSDT, ETHBTC
     BTC/USD with two points of precision will run by default
+
     Set --decimals to 7 or 8 for non-USDT or low volume pairs
 
     --interval determines time-period for context windows.
-    Default set to 1 minute for this exercise.
+    Default set to 1 minute
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--pair', default='BTCUSDT')
