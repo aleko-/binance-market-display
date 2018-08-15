@@ -35,7 +35,10 @@ class Cruncher:
     Builds dataframes based on a specified window-length
     Runs calculations over the dataframes
 
-    When querying market data with a specific window-length, the returned timestamp will remain constant for all queries within that window of time. This is how Crucher knows to either append the latest market data to an existing dataframe, or to begin a new dataframe.
+    When querying market data with a specific window-length, the returned
+    timestamp will remain constant for all queries within that window of
+    time. This is how Crucher knows to either append the latest market data
+    to an existing dataframe, or to begin a new dataframe.
     """
     def __init__(self):
         self._df = None
